@@ -100,6 +100,7 @@ void keyboard(unsigned char key, int x, int y) {
 			printf("d - View from down\n");
 			printf("r - View from right\n");
 			printf("l - View from left\n");
+			printf("i - Show toroide\n");
 			printf("t - Show turtle drawing with glBegin()\n");
 			printf("e - Show turtle drawing with glutWireSphere()\n");
 			printf("q/escape - Quit\n\n");
