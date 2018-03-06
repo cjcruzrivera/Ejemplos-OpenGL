@@ -1,8 +1,9 @@
 
+
 /* 
  * File:   inicio_tortuga.cpp
  * Author: Camilo José Cruz Rivera 1428907
- * Author: Erik López Pacheco
+ * Author: Erik López Pacheco 1430406
  * Author: Jesús Alberto Ramírez Otálvaro 1422554
  *
  * Created on 27 de febrero de 2018, 13:21
@@ -13,7 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool mostarEjes = false, mostrarTortuga = false, tortugaEsferica = false, index = true;
+bool mostarEjes = false, mostrarTortuga = false, tortugaEsferica = false, toroide = true;
 GLfloat camaraX = 0.0, camaraY = 1.0, camaraZ = 3.0;
 
 void dibujarEjes(){	
@@ -42,16 +43,16 @@ void dibujarEjes(){
 
 void drawTurtle(){	
 		
-	GLdouble x[] = {0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 5.0, 4.0, 2.0, 3.0, 3.0, 3.0, 2.0, 3.0, 4.0, 5.0, 5.0, 4.0, 3.0, 2.0, 1.0, 2.0, 2.0, 2.0, 2.0, 1.0, 0.0};
-	GLdouble z[] = {4.0, 4.0, 4.0, 5.0, 5.0, 4.0, 3.0, 2.0, 2.0, 1.0, 0.0, -1.0, -2.0, -2.0, -2.0, -3.0, -4.0, -5.0, -5.0, -4.0, -4.0, -5.0, -6.0, -7.0, -8.0, -9.0, -9.0};
+	GLdouble x[] = { 0.0, 1.0, 2.0, 2.0, 2.0, 2.0, 1.0, 2.0, 3.0, 4.0, 5.0, 5.0, 4.0, 2.0, 3.0, 3.0,  3.0,  2.0,  3.0,  4.0,  5.0,  5.0,  4.0,  3.0,  2.0,  1.0,  0.0};
+	GLdouble z[] = { 9.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 4.0, 5.0, 5.0, 4.0, 3.0, 2.0, 2.0, 1.0, 0.0, -1.0, -2.0, -2.0, -2.0, -3.0, -4.0, -5.0, -5.0, -4.0, -4.0, -4.0};
 	GLint i;
 	glColor3f(0.0,0.0,1.0);
 	glBegin(GL_LINE_LOOP);
 	for (i=0;i<28;i++){
-		glVertex3f(x[i]*0.1,0.0,-.1*z[i]);
+		glVertex3f(x[i]*0.15,0.0,-.15*z[i]);
 	}
 	for (i=27;i>0;i--){
-		glVertex3f(-.1*x[i],0.0,-.1*z[i]);
+		glVertex3f(-.15*x[i],0.0,-.15*z[i]);
 	}
 	glEnd();	
 
@@ -156,27 +157,20 @@ void keyboard(unsigned char key, int x, int y) {
 			gluLookAt(camaraX, camaraY, camaraZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 			break;
 		case 't':
-			mostrarTortuga = (mostrarTortuga) ? false : true;
-
-			if(mostrarTortuga){
-				index = false;
-				tortugaEsferica = false;
-			}else if(!tortugaEsferica){
-				index = true;
-			}
-
+			mostrarTortuga = true;
+			toroide = false;
+			tortugaEsferica = false;
 			break;
 		case 'e':
-			tortugaEsferica = (tortugaEsferica) ? false : true;	
-
-			if(tortugaEsferica){
-				index = false;
-				mostrarTortuga = false;
-			}else if(!mostrarTortuga){
-				index = true;
-			}
-
-			break;
+			tortugaEsferica = true;			
+			toroide = false;
+			mostrarTortuga = false;
+			break;	
+		case 'i':
+			toroide = true;
+			tortugaEsferica = false;			
+			mostrarTortuga = false;
+			break;	
 		case 'q':
 		case 27:
 			exit(0);
@@ -215,7 +209,7 @@ void display(void) {
 
 	}	
 
-	if(index){	
+	if(toroide){	
 
 		glColor3f(1.0,0.0,0.0);
 		glutWireTorus(0.25,0.75, 28, 28); 
