@@ -107,7 +107,6 @@ void parseCommand(char *strCommandParse)
         val = atof(strToken1);
         if (!strcmp("fd", strToken0))
         { // FORWARD
-            cout << "FD" << endl;
             glTranslatef(0.0, 0.0, val);
         }
         else if (!strcmp("bk", strToken0))
@@ -129,6 +128,14 @@ void parseCommand(char *strCommandParse)
         else if (!strcmp("dn", strToken0))
         { // DOWN
             glRotatef(-val, 1., 0., 0.);
+        }
+        else if (!strcmp("rr", strToken0))
+        { // RIGHTROLL
+            glRotatef(-val, 0., 0., 1.);
+        }
+        else if (!strcmp("rl", strToken0))
+        { // LEFTROLL
+            glRotatef(-val, 0., 0., 1.);
         }
         strToken0 = strtok(NULL, " ");
         display();
