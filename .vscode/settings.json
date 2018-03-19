@@ -40,6 +40,8 @@
     "nim": "nim compile --verbosity:0 --hints:off --run"
 },
 "files.associations": {
-    "iostream": "cpp"
+    "*.mustache": "html",
+    "iostream": "cpp",
+    "ostream": "cpp"
 }
 }

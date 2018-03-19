@@ -18,7 +18,7 @@ using namespace std;
 
 bool command = false; /* command mode */
 char strCommand[256];
-bool mostarEjes = false;
+bool mostarEjes = true;
 GLfloat camaraX = 0.0, camaraY = 1.0, camaraZ = 3.0;
 
 void dibujarEjes()
@@ -85,7 +85,6 @@ void display(void)
 
     if (mostarEjes)
     {
-
         //Función que dibuja los ejes X,Y y Z
         dibujarEjes();
     }
@@ -135,7 +134,19 @@ void parseCommand(char *strCommandParse)
         }
         else if (!strcmp("rl", strToken0))
         { // LEFTROLL
-            glRotatef(-val, 0., 0., 1.);
+            glRotatef(val, 0., 0., 1.);
+        }
+        else if (!strcmp("sx", strToken0))
+        { // SCALEX
+            glScalef(val, 1., 1.);
+        }
+        else if (!strcmp("sy", strToken0))
+        { // SCALEY
+            glScalef(1., val, 1.);
+        }
+        else if (!strcmp("sz", strToken0))
+        { // SCALEZ
+            glScalef(1., 1., val);
         }
         strToken0 = strtok(NULL, " ");
         display();
@@ -143,26 +154,54 @@ void parseCommand(char *strCommandParse)
     // EXIT COMMAND MODE
     if (strToken0 != NULL && strncmp(strToken0, "exit", 4) == 0)
     {
+        cout << "EXIT COMMAND MODE" << endl;
         command = false;
         // HOME
     }
-    else if (strToken0 != NULL && !strcmp("home", strToken0))
+    else if (strToken0 != NULL && !strcmp("help", strToken0))
     {
-        glLoadIdentity();
+        cout << "HELP FROM COMMAND MODE" << endl;
+        cout << "For every command, nn is the unit of movements. " << endl;
+        cout << "To move forward enter:" << endl;
+        cout << "   fd nn" << endl;
+        cout << "To move back enter:" << endl;
+        cout << "   bk nn" << endl;
+        cout << "To rotate right enter:" << endl;
+        cout << "   rt nn" << endl;
+        cout << "To rotate left enter:" << endl;
+        cout << "   lt nn" << endl;
+        cout << "To rotate up enter:" << endl;
+        cout << "   up nn" << endl;
+        cout << "To rotate down enter:" << endl;
+        cout << "   dn nn" << endl;
+        cout << "To rightroll enter:" << endl;
+        cout << "   rr nn" << endl;
+        cout << "To leftroll enter:" << endl;
+        cout << "   rl nn" << endl;
+        cout << "To resize X axis enter: (nn>1 for increase and nn<1 for decrease)" << endl;
+        cout << "   sx nn" << endl;
+        cout << "To resize Y axis enter: (nn>1 for increase and nn<1 for decrease)" << endl;
+        cout << "   sy nn" << endl;
+        cout << "To resize Z axis enter: (nn>1 for increase and nn<1 for decrease)" << endl;
+        cout << "   sz nn" << endl;
+        cout << "To exit enter: " << endl;
+        cout << "exit or press enter twice ";
     }
 }
 
 void keyboard(unsigned char key, int x, int y)
 {
     if (command)
-    {
-
+    {        
         if (key == 13)
         {
             cout << strCommand << endl;
             strcat(strCommand, " ");
             if (strlen(strCommand) == 1)
+            {
+                cout << "EXIT COMMAND MODE" << endl;
                 command = false;
+            }
             parseCommand(strCommand);
             strcpy(strCommand, "");
         }
@@ -250,6 +289,7 @@ void keyboard(unsigned char key, int x, int y)
             exit(0);
             break;
         case 'i':
+            cout << "ENTER COMMAND MODE" << endl;
             command = true;
             break;
         }
