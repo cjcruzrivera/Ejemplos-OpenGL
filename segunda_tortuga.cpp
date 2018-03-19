@@ -20,7 +20,11 @@ bool command = false; /* command mode */
 char strCommand[256];
 bool mostarEjes = true;
 bool visible = true;
-GLfloat camaraX = 0.0, camaraY = 1.0, camaraZ = 3.0;
+GLfloat camaraX = 0.0, camaraY = 1.0, camaraZ = 3.0, circle = 360;
+char *repeatCommand;
+char *nextCommand;
+char parseCommandInit[256];
+int i;
 
 void dibujarEjes()
 {
@@ -99,16 +103,47 @@ void display(void)
     glutSwapBuffers();
 }
 
+char *insideRepeat(char *strCommandInside)
+{
+    char *ini, *fin;
+    ini = strchr(strCommandInside, '[');
+    if (ini == NULL)
+        return NULL;
+    ini++;
+    fin = strrchr(strCommandInside, ']');
+    if (fin == NULL)
+        return NULL;
+    strCommandInside[fin - strCommandInside] = 0;
+    return ini;
+}
+
 void parseCommand(char *strCommandParse)
 {
     char *strToken0;
     char *strToken1;
     double val;
     strToken0 = strtok(strCommandParse, " ");
+
     while ((strToken1 = strtok(NULL, " ")) != NULL)
     {
         val = atof(strToken1);
-        if (!strcmp("fd", strToken0))
+        if (!strcmp("repeat", strToken0))
+        { //REPEAT
+            repeatCommand = insideRepeat(strToken1 + strlen(strToken1) + 1);
+            if (repeatCommand == NULL)
+                return;
+            nextCommand = repeatCommand + strlen(repeatCommand) + 1;
+            for (i = 0; i < val; i++)
+            {
+                strcpy(parseCommandInit, repeatCommand);
+                parseCommand(parseCommandInit);
+            }
+            strToken0 = strtok(nextCommand, " ");
+            if (strToken0 == NULL)
+                continue;
+            continue;
+        }
+        else if (!strcmp("fd", strToken0))
         { // FORWARD
             glTranslatef(0.0, 0.0, -val);
         }
@@ -151,6 +186,31 @@ void parseCommand(char *strCommandParse)
         else if (!strcmp("sz", strToken0))
         { // SCALEZ
             glScalef(1., 1., val);
+        }
+        else if (!strcmp("sc", strToken0))
+        { // SETCIRCLE
+            circle = val;
+            cout << "circle: " << circle;
+        }
+        else if (!strcmp("load", strToken0))
+        { // LOAD
+            FILE *file;
+            char *filename;
+            char buffer[128];
+            int i = 0;
+            filename = strToken1;
+            file = fopen(filename, "r");
+            if (!file)
+            {
+                fprintf(stderr, "No se pudo abrir \"%s\".\n", filename);
+                exit(1);
+            }
+            while (fgets(buffer, 256, file) != NULL)
+            {
+                cout << buffer << endl;
+                parseCommand(buffer);
+            }
+            break;
         }
 
         strToken0 = strtok(NULL, " ");
@@ -198,12 +258,12 @@ void parseCommand(char *strCommandParse)
         cout << "exit or press enter twice ";
     }
     else if (strToken0 != NULL && strncmp(strToken0, "ht", 2) == 0)
-    {// HIDETURTLE
+    { // HIDETURTLE
         visible = false;
         display();
     }
     else if (strToken0 != NULL && strncmp(strToken0, "st", 2) == 0)
-    {// SHOWTURTLE
+    { // SHOWTURTLE
         visible = true;
         display();
     }
