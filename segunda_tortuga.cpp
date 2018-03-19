@@ -153,27 +153,33 @@ void parseCommand(char *strCommandParse)
         }
         else if (!strcmp("rt", strToken0))
         { // RIGHT
-            glRotatef(-val, 0., 1., 0.);
+            double angulo = (360*val)/circle;
+            glRotatef(-angulo, 0., 1., 0.);
         }
         else if (!strcmp("lt", strToken0))
         { // LEFT
+            double angulo = (360*val)/circle;        
             glRotatef(val, 0., 1., 0.);
         }
         else if (!strcmp("up", strToken0))
         { // UP
-            glRotatef(val, 1., 0., 0.);
+            double angulo = (360*val)/circle;        
+            glRotatef(angulo, 1., 0., 0.);
         }
         else if (!strcmp("dn", strToken0))
         { // DOWN
-            glRotatef(-val, 1., 0., 0.);
+            double angulo = (360*val)/circle;        
+            glRotatef(-angulo, 1., 0., 0.);
         }
         else if (!strcmp("rr", strToken0))
         { // RIGHTROLL
-            glRotatef(-val, 0., 0., 1.);
+            double angulo = (360*val)/circle;                
+            glRotatef(-angulo, 0., 0., 1.);
         }
         else if (!strcmp("rl", strToken0))
         { // LEFTROLL
-            glRotatef(val, 0., 0., 1.);
+            double angulo = (360*val)/circle;                
+            glRotatef(angulo, 0., 0., 1.);
         }
         else if (!strcmp("sx", strToken0))
         { // SCALEX
@@ -266,6 +272,26 @@ void parseCommand(char *strCommandParse)
     { // SHOWTURTLE
         visible = true;
         display();
+    }
+    else if (strToken0 != NULL && strncmp(strToken0, "circ", 4) == 0)
+    { // CIRCULO
+
+        FILE *file;
+        char *filename;
+        char buffer[128];
+        int i = 0;
+        filename = "cir.txt";
+        file = fopen(filename, "r");
+        if (!file)
+        {
+            fprintf(stderr, "No se pudo abrir \"%s\".\n", filename);
+            exit(1);
+        }
+        while (fgets(buffer, 256, file) != NULL)
+        {
+            cout << buffer << endl;
+            parseCommand(buffer);
+        }
     }
 }
 
