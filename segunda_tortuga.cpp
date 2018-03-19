@@ -110,11 +110,11 @@ void parseCommand(char *strCommandParse)
         val = atof(strToken1);
         if (!strcmp("fd", strToken0))
         { // FORWARD
-            glTranslatef(0.0, 0.0, val);
+            glTranslatef(0.0, 0.0, -val);
         }
         else if (!strcmp("bk", strToken0))
         { // BACK
-            glTranslatef(0.0, 0.0, -val);
+            glTranslatef(0.0, 0.0, val);
         }
         else if (!strcmp("rt", strToken0))
         { // RIGHT
@@ -161,7 +161,6 @@ void parseCommand(char *strCommandParse)
     {
         cout << "EXIT COMMAND MODE" << endl;
         command = false;
-        // HOME
     }
     else if (strToken0 != NULL && !strcmp("help", strToken0))
     {
@@ -189,16 +188,22 @@ void parseCommand(char *strCommandParse)
         cout << "   sy nn" << endl;
         cout << "To resize Z axis enter: (nn>1 for increase and nn<1 for decrease)" << endl;
         cout << "   sz nn" << endl;
+        cout << "To hide turtle enter: " << endl;
+        cout << "   ht " << endl;
+        cout << "To show turtle enter: " << endl;
+        cout << "   st" << endl;
+        cout << "To help enter: " << endl;
+        cout << "   help " << endl;
         cout << "To exit enter: " << endl;
         cout << "exit or press enter twice ";
     }
-    else if (!strcmp("ht", strToken0))
-    { // HIDETURTLE
+    else if (strToken0 != NULL && strncmp(strToken0, "ht", 2) == 0)
+    {// HIDETURTLE
         visible = false;
         display();
     }
-    else if (!strcmp("st", strToken0))
-    { // SHOWTURTLE
+    else if (strToken0 != NULL && strncmp(strToken0, "st", 2) == 0)
+    {// SHOWTURTLE
         visible = true;
         display();
     }
