@@ -153,32 +153,32 @@ void parseCommand(char *strCommandParse)
         }
         else if (!strcmp("rt", strToken0))
         { // RIGHT
-            double angulo = (360*val)/circle;
+            double angulo = (360 * val) / circle;
             glRotatef(-angulo, 0., 1., 0.);
         }
         else if (!strcmp("lt", strToken0))
         { // LEFT
-            double angulo = (360*val)/circle;        
+            double angulo = (360 * val) / circle;
             glRotatef(val, 0., 1., 0.);
         }
         else if (!strcmp("up", strToken0))
         { // UP
-            double angulo = (360*val)/circle;        
+            double angulo = (360 * val) / circle;
             glRotatef(angulo, 1., 0., 0.);
         }
         else if (!strcmp("dn", strToken0))
         { // DOWN
-            double angulo = (360*val)/circle;        
+            double angulo = (360 * val) / circle;
             glRotatef(-angulo, 1., 0., 0.);
         }
         else if (!strcmp("rr", strToken0))
         { // RIGHTROLL
-            double angulo = (360*val)/circle;                
+            double angulo = (360 * val) / circle;
             glRotatef(-angulo, 0., 0., 1.);
         }
         else if (!strcmp("rl", strToken0))
         { // LEFTROLL
-            double angulo = (360*val)/circle;                
+            double angulo = (360 * val) / circle;
             glRotatef(angulo, 0., 0., 1.);
         }
         else if (!strcmp("sx", strToken0))
@@ -254,6 +254,10 @@ void parseCommand(char *strCommandParse)
         cout << "   sy nn" << endl;
         cout << "To resize Z axis enter: (nn>1 for increase and nn<1 for decrease)" << endl;
         cout << "   sz nn" << endl;
+        cout << "To load a command file enter: " << endl;
+        cout << "   load filename" << endl;
+        cout << "To make move the turtle in a circle enter: " << endl;
+        cout << "   circ " << endl;
         cout << "To hide turtle enter: " << endl;
         cout << "   ht " << endl;
         cout << "To show turtle enter: " << endl;
