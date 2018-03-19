@@ -19,6 +19,7 @@ using namespace std;
 bool command = false; /* command mode */
 char strCommand[256];
 bool mostarEjes = true;
+bool visible = true;
 GLfloat camaraX = 0.0, camaraY = 1.0, camaraZ = 3.0;
 
 void dibujarEjes()
@@ -90,7 +91,10 @@ void display(void)
     }
 
     //Función que dibuja la tortuga con glBegin()
-    drawTurtle();
+    if (visible)
+    {
+        drawTurtle();
+    }
 
     glutSwapBuffers();
 }
@@ -148,6 +152,7 @@ void parseCommand(char *strCommandParse)
         { // SCALEZ
             glScalef(1., 1., val);
         }
+
         strToken0 = strtok(NULL, " ");
         display();
     }
@@ -187,12 +192,22 @@ void parseCommand(char *strCommandParse)
         cout << "To exit enter: " << endl;
         cout << "exit or press enter twice ";
     }
+    else if (!strcmp("ht", strToken0))
+    { // HIDETURTLE
+        visible = false;
+        display();
+    }
+    else if (!strcmp("st", strToken0))
+    { // SHOWTURTLE
+        visible = true;
+        display();
+    }
 }
 
 void keyboard(unsigned char key, int x, int y)
 {
     if (command)
-    {        
+    {
         if (key == 13)
         {
             cout << strCommand << endl;
