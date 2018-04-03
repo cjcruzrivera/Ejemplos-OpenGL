@@ -125,9 +125,46 @@ void dibujarPlanetas()
 
     //dibujar JUPITER
     glPushMatrix();
-    glColor3f(1.0, 0.0, 0.0);
-    glTranslatef(0.585 * cos(2*M_PI+2), 0.585 * sin(2*M_PI + 2), 0.0);
-    glutSolidSphere(0.055, 50.0, 50.0);
+    glColor3f(0.9, 0.7, 0.5);
+    glTranslatef(0.83 * cos(2*M_PI+2), 0.83 * sin(2*M_PI + 2), 0.0);
+    glutSolidSphere(0.095, 50.0, 50.0);
+    glPopMatrix();
+
+    //dibujar SATURNO
+    glPushMatrix();
+    glColor3f(0.8008, 0.8008, 0.5938);
+    glTranslatef(0.935 * cos((3 * M_PI) / 3), 0.935 * sin((3 * M_PI) / 3), 0.0);
+    glutSolidSphere(0.065, 50.0, 50.0);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(1.0, 1.0, 1.0);
+    glTranslatef(0.935 * cos((3 * M_PI) / 3), 0.935 * sin((3 * M_PI) / 3), 0.0);
+    angle = 0.0f;
+    glBegin(GL_POINTS);
+    while (angle <= (2 * M_PI))
+    {
+        float x = (float)(((float)0.9 / 8.5) * cos(angle));
+        float y = (float)(((float)0.9 / 8.5) * sin(angle));
+        glVertex2f(x, y);
+        angle += 0.001;
+    }
+    glEnd();
+    glPopMatrix();
+
+    //Dibujar URANO
+    glPushMatrix();
+    glColor3f(0.01, 0.3, 1.0);
+    glTranslatef(1.055 * cos(6*M_PI), 1.055 * sin(6*M_PI), 0.0);
+    glutSolidSphere(0.06, 50.0, 50.0);
+    glPopMatrix();
+
+
+    //dibujar NEPTUNO
+    glPushMatrix();
+    glColor3f(0.01, 0.01, 1.0);
+    glTranslatef(1.165 * cos(6*M_PI+1), 1.165 * sin(6*M_PI+1), 0.0);
+    glutSolidSphere(0.075, 50.0, 50.0);
     glPopMatrix();
 
 }
